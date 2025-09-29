@@ -2,4 +2,12 @@
 <resources>
 
     <style name="Theme.Morse_Link" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Morse_Link..Splash" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+
 </resources>

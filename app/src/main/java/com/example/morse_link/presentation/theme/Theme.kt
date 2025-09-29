@@ -1,6 +1,5 @@
-package com.example.morse_link.ui.theme
+package com.example.morse_link.presentation.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

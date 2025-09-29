@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Morse_Link">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Morse_Link">
+            android:theme="@style/Theme.Morse_Link..Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package com.example.morse_link
+package com.example.morse_link.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.morse_link.ui.theme.Morse_LinkTheme
+import com.example.morse_link.presentation.theme.Morse_LinkTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

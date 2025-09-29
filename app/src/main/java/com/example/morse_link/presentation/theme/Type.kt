@@ -1,4 +1,4 @@
-package com.example.morse_link.ui.theme
+package com.example.morse_link.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
