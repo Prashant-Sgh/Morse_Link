@@ -1,6 +1,7 @@
 package com.example.morse_link.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -127,13 +128,30 @@ fun MainScreen(modifier: Modifier = Modifier) {
             Spacer(Modifier.weight(1f))
 
             Button(
-                onClick = {},
+                onClick = {
+                    isProcessing = true
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp, vertical = 12.dp)
                 ) {
                 Text("Convert")
             }
+        }
+
+        ProcessingOverlay(isProcessing)
+
+        Column {
+            Spacer(modifier = Modifier.weight(0.8f))
+            Text(
+                "Cancel",
+                fontSize = 13.sp,
+                color = Color.Gray,
+                modifier = Modifier.clickable(enabled = true, onClick = {
+                    isProcessing = false
+                })
+            )
+            Spacer(modifier = Modifier.weight(0.2f))
         }
     }
 }
