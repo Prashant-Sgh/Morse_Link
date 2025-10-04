@@ -4,15 +4,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowForward
@@ -23,7 +27,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,6 +48,9 @@ import com.example.morse_link.R
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
+
+    var isProcessing by remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -69,10 +81,11 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 )
 
             OutlinedTextField(
-                modifier = Modifier.padding(top = 20.dp)
+                modifier = Modifier
+                    .padding(top = 20.dp)
                     .padding(horizontal = 48.dp)
                     .background(color = Color.Transparent),
-                value = "Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try to cover it too by covering that while designing. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try to cover it too by covering that while designing.",
+                value = "Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try to cover it too by covering that while designing. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try to cover it too by covering that while designing. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try to cover it too by covering that while designing. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try to cover it too by covering that while designing. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try.Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try. ",
 //                value = "",
                 onValueChange = {},
                 label = { Text("Message", fontWeight = FontWeight.Light) },
@@ -90,37 +103,36 @@ fun MainScreen(modifier: Modifier = Modifier) {
                     focusedTrailingIconColor = Color.DarkGray
                 ),
                 singleLine = false,
-                maxLines = 8,
-                trailingIcon = {
-                    IconButton(
-                    onClick = {}
-                        ) {
-                    Icon(Icons.Rounded.Clear,
-                        contentDescription = "Clear field",
-                        modifier = Modifier.height(23.dp),
-                    )
-                    }
-                }
+                maxLines = 22,
             )
 
-            Row {
-                Button(onClick = {}) {
-                    Row {
-                        Icon(painter = painterResource(id = R.drawable.pasteicon), contentDescription = "Paste copied text")
-                        Spacer(Modifier.width(8.dp))
-                        Text("Paste")
-                    }
-                }
+            Row (
+                Modifier.padding(horizontal = 52.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(
+                    "clear",
+                    fontSize = 13.sp,
+                    color = Color.Gray
+                )
+                Text(
+                    "paste",
+                    fontSize = 13.sp,
+                    color = Color.Gray
+                )
+            }
 
-                Spacer(Modifier.width(30.dp))
+            Spacer(Modifier.weight(1f))
 
-                Button(onClick = {}) {
-                    Row {
-                        Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Convert into morse")
-                        Spacer(Modifier.width(8.dp))
-                        Text("Convert")
-                    }
-                }
+            Button(
+                onClick = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp, vertical = 12.dp)
+                ) {
+                Text("Convert")
             }
         }
     }

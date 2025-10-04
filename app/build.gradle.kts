@@ -48,6 +48,8 @@ dependencies {
     kapt(libs.dagger.hilt.compiler)
     // Navigation
     implementation(libs.androidx.navigation.compose)
+    // Lottie
+    implementation(libs.lottie.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
