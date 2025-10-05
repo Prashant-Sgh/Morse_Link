@@ -34,7 +34,7 @@ fun ProcessingOverlay(isProcessing: Boolean) {
         ) {
             val randomLoader = Random.nextInt(1,9)
             val composition by rememberLottieComposition(
-                LottieCompositionSpec.Asset("LOADER-5.json")
+                LottieCompositionSpec.Asset("LOADER-$randomLoader.json")
             )
             val progress by animateLottieCompositionAsState(
                 composition = composition,

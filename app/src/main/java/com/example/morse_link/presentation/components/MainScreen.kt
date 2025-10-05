@@ -37,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -46,11 +47,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.morse_link.R
 
-@Preview(showBackground = true, showSystemUi = true)
+//@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
 
     var isProcessing by remember { mutableStateOf(false) }
+    var message by remember { mutableStateOf("") }
+    val clipBoardManager = LocalClipboardManager.current
 
     Box(
         modifier = Modifier
@@ -66,7 +69,6 @@ fun MainScreen(modifier: Modifier = Modifier) {
         ) {
             Text(
                 "English - Morse.",
-                textAlign = TextAlign.Center,
                 fontSize = 23.sp,
                 fontWeight = FontWeight.Normal,
                 modifier = Modifier
@@ -81,48 +83,53 @@ fun MainScreen(modifier: Modifier = Modifier) {
                     .padding(horizontal = 46.dp)
                 )
 
-            OutlinedTextField(
-                modifier = Modifier
-                    .padding(top = 20.dp)
-                    .padding(horizontal = 48.dp)
-                    .background(color = Color.Transparent),
-                value = "Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try to cover it too by covering that while designing. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try to cover it too by covering that while designing. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try to cover it too by covering that while designing. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try to cover it too by covering that while designing. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try.Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try. Some message go here, it can be long, very long or short, I don't know it's actual length, but i can try. ",
-//                value = "",
-                onValueChange = {},
-                label = { Text("Message", fontWeight = FontWeight.Light) },
-                textStyle = TextStyle(color = Color(0xFF595959), fontSize = 16.sp),
-                enabled = true,
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF19C001),
-                    focusedLabelColor = Color(0xFF19C001),
-                    unfocusedBorderColor = Color(0xFF3054FF),
-                    unfocusedLabelColor = Color(0xFF3054FF),
-//                    unfocusedBorderColor = Color(0xFF19C001),
-//                    unfocusedLabelColor = Color(0xFF19C001),
-                    cursorColor = Color(0xFF19C001),
-                    unfocusedTrailingIconColor = Color.Gray,
-                    focusedTrailingIconColor = Color.DarkGray
-                ),
-                singleLine = false,
-                maxLines = 22,
-            )
-
-            Row (
-                Modifier.padding(horizontal = 52.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                modifier = Modifier.width(300.dp)
             ){
-                Text(
-                    "clear",
-                    fontSize = 13.sp,
-                    color = Color.Gray
+                OutlinedTextField(
+                    modifier = Modifier
+                        .padding(top = 20.dp)
+                        .fillMaxWidth()
+                        .background(color = Color.Transparent),
+
+                    value = message,
+                    onValueChange = { message = it },
+                    label = { Text("Message", fontWeight = FontWeight.Light) },
+                    textStyle = TextStyle(color = Color(0xFF595959), fontSize = 16.sp),
+                    enabled = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color(0xFF19C001),
+                        focusedLabelColor = Color(0xFF19C001),
+                        unfocusedBorderColor = Color(0xFF3054FF),
+                        unfocusedLabelColor = Color(0xFF3054FF),
+                        cursorColor = Color(0xFF19C001),
+                    ),
+                    singleLine = false,
+                    maxLines = 22,
                 )
-                Text(
-                    "paste",
-                    fontSize = 13.sp,
-                    color = Color.Gray
-                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "clear",
+                        fontSize = 13.sp,
+                        color = Color.Gray,
+                        modifier = Modifier.clickable(enabled = true, onClick = {message = "" })
+                    )
+                    Text(
+                        "paste",
+                        fontSize = 13.sp,
+                        color = Color.Gray,
+                        modifier = Modifier.clickable(enabled = true, onClick = {
+                            clipBoardManager.getText()?.let {
+                                message = it.text
+                            }
+                        })
+                    )
+                }
             }
 
             Spacer(Modifier.weight(1f))
@@ -141,17 +148,19 @@ fun MainScreen(modifier: Modifier = Modifier) {
 
         ProcessingOverlay(isProcessing)
 
-        Column {
-            Spacer(modifier = Modifier.weight(0.8f))
-            Text(
-                "Cancel",
-                fontSize = 13.sp,
-                color = Color.Gray,
-                modifier = Modifier.clickable(enabled = true, onClick = {
-                    isProcessing = false
-                })
-            )
-            Spacer(modifier = Modifier.weight(0.2f))
+        if (isProcessing) {
+            Column {
+                Spacer(modifier = Modifier.weight(0.8f))
+                Text(
+                    "Cancel",
+                    fontSize = 13.sp,
+                    color = Color.DarkGray,
+                    modifier = Modifier.clickable(enabled = true, onClick = {
+                        isProcessing = false
+                    })
+                )
+                Spacer(modifier = Modifier.weight(0.2f))
+            }
         }
     }
 }
