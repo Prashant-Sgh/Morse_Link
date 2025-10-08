@@ -27,4 +27,8 @@ class Repository @Inject constructor
         /*TODO - implement flashlight transmit*/
     }
 
+    suspend fun transmitBoth(morseCode: String) {
+        /*TODO - implement flashlight transmit*/
+    }
+
 }

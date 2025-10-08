@@ -10,12 +10,16 @@ class MorseRepoImpl @Inject constructor(
         return repository.convertToMorse(message)
     }
 
-    override suspend fun transmitThroughFlashlight(morseCode: String) {
+    override suspend fun transmitThroFlashlight(morseCode: String) {
         repository.transmitFlashLight(morseCode)
     }
 
-    override suspend fun transmitThroughSound(morseCode: String) {
+    override suspend fun transmitThroSound(morseCode: String) {
         repository.transmitSound(morseCode)
+    }
+
+    override suspend fun transmitThroBoth(morseCode: String) {
+        repository.transmitBoth(morseCode)
     }
 
 }

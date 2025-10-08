@@ -26,7 +26,7 @@ import kotlin.random.Random
 
 //@Preview (showBackground = true, showSystemUi = true)
 @Composable
-fun ProcessingOverlay(isProcessing: Boolean = false) {
+fun ProcessingOverlay(isProcessing: Boolean) {
     if (isProcessing) {
         Box(
             Modifier.fillMaxSize().background(Color.White),
