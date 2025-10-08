@@ -14,9 +14,9 @@ import com.example.morse_link.presentation.screens.HomeScreen
 import com.example.morse_link.presentation.viewmodels.SharedViewmodel
 
 @Composable
-fun AppNavHost
-            (navController: NavHostController = rememberNavController(),
-             viewmodel: SharedViewmodel
+fun AppNavHost(
+    navController: NavHostController = rememberNavController(),
+    viewmodel: SharedViewmodel
 ) {
 
     val message = viewmodel.messageString
