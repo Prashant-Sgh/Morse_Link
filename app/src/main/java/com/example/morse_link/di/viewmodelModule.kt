@@ -16,7 +16,6 @@ abstract class viewmodelModule {
     *  Plug viewmodel into composeables
     *  Hardware layer - sound & flashlight
     *  Hardware light - test with something else
-    *  Virtual then -->> real device
-    *  */
+    *  Virtual then -->> real device*  */
 
 }
