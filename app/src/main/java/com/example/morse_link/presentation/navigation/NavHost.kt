@@ -3,6 +3,7 @@ package com.example.morse_link.presentation.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -16,7 +17,7 @@ import com.example.morse_link.presentation.viewmodels.SharedViewmodel
 @Composable
 fun AppNavHost(
     navController: NavHostController = rememberNavController(),
-    viewmodel: SharedViewmodel
+    viewmodel: SharedViewmodel = hiltViewModel()
 ) {
 
     val message = viewmodel.messageString

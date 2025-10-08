@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.morse_link.presentation.components.MainScreen
+import com.example.morse_link.presentation.navigation.AppNavHost
 import com.example.morse_link.presentation.theme.Morse_LinkTheme
 import com.example.morse_link.presentation.viewmodels.SharedViewmodel
 
@@ -20,12 +21,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val viewModel: SharedViewmodel = hiltViewModel()
+//        val viewModel: SharedViewmodel = hiltViewModel()
 
         setContent {
             Morse_LinkTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(modifier = Modifier.padding(innerPadding))
+//                    MainScreen(modifier = Modifier.padding(innerPadding))
+                    AppNavHost()
                 }
             }
         }

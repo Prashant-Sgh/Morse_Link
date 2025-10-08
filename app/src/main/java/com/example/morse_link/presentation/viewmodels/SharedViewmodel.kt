@@ -1,5 +1,6 @@
 package com.example.morse_link.presentation.viewmodels
 
+import androidx.lifecycle.ViewModel
 import com.example.morse_link.data.repository.Repository
 import com.example.morse_link.domain.morseRepo.MorseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SharedViewmodel @Inject constructor(
     private val repository: MorseRepository
-)
+): ViewModel()
 {
     private val _messageString = MutableStateFlow("")
     val messageString: StateFlow<String> = _messageString
