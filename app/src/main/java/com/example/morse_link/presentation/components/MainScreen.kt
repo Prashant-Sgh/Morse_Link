@@ -32,6 +32,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,13 +48,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.morse_link.R
+import com.example.morse_link.presentation.navigation.Screens
+import com.example.morse_link.presentation.viewmodels.SharedViewmodel
 
-//@Preview(showBackground = true, showSystemUi = true)
+//@Preview(showBackground = true)
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun MainScreen(
+    viewmodel: SharedViewmodel,
+    navController: NavController
+    ) {
 
-    var isProcessing by remember { mutableStateOf(false) }
     var message by remember { mutableStateOf("") }
     val clipBoardManager = LocalClipboardManager.current
 
@@ -95,7 +103,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
                         .background(color = Color.Transparent),
 
                     value = message,
-                    onValueChange = { message = it },
+                    onValueChange = { message = it},
                     label = { Text("Message", fontWeight = FontWeight.Light) },
                     textStyle = TextStyle(color = Color(0xFF595959), fontSize = 16.sp),
                     enabled = true,
@@ -119,7 +127,14 @@ fun MainScreen(modifier: Modifier = Modifier) {
                         "clear",
                         fontSize = 13.sp,
                         color = Color.Gray,
-                        modifier = Modifier.clickable(enabled = true, onClick = {message = "" })
+                        modifier = Modifier
+                            .clickable(
+                                enabled = true,
+                                onClick = {
+                                    message = ""
+                                    viewmodel.UpdateMessage(message)
+                                }
+                            )
                     )
                     Text(
                         "paste",
@@ -138,7 +153,10 @@ fun MainScreen(modifier: Modifier = Modifier) {
 
             Button(
                 onClick = {
-                    isProcessing = true
+                    viewmodel.UpdateMessage(message)
+                    viewmodel.UpdateProcessingState(true)
+                    navController.navigate(Screens.Loading.route)
+                    viewmodel.ConvertToMorse(message)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -150,23 +168,6 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 colors = ButtonDefaults.buttonColors(Color.DarkGray)
                 ) {
                 Text("Convert")
-            }
-        }
-
-        ProcessingOverlay(isProcessing)
-
-        if (isProcessing) {
-            Column {
-                Spacer(modifier = Modifier.weight(0.8f))
-                Text(
-                    "Cancel",
-                    fontSize = 13.sp,
-                    color = Color.DarkGray,
-                    modifier = Modifier.clickable(enabled = true, onClick = {
-                        isProcessing = false
-                    })
-                )
-                Spacer(modifier = Modifier.weight(0.2f))
             }
         }
     }

@@ -11,6 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.morse_link.presentation.components.MainScreen
 import com.example.morse_link.presentation.navigation.AppNavHost
 import com.example.morse_link.presentation.theme.Morse_LinkTheme
@@ -20,14 +23,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-//        val viewModel: SharedViewmodel = hiltViewModel()
-
         setContent {
+            val viewModel: SharedViewmodel = hiltViewModel()
+            val navController: NavHostController = rememberNavController()
             Morse_LinkTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 //                    MainScreen(modifier = Modifier.padding(innerPadding))
-                    AppNavHost()
+                    AppNavHost(
+                        navController = navController,
+                        viewmodel = viewModel,
+                        modifier = Modifier.padding(innerPadding)
+                        )
                 }
             }
         }
