@@ -31,22 +31,23 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.flow.StateFlow
+import androidx.navigation.NavHostController
+import com.example.morse_link.presentation.navigation.Screens
 
 //@Preview(showBackground = true)
 @Composable
-fun ResultScreen(morseCode: String) {
+fun ResultScreen(morseCode: String, navcontroller: NavHostController) {
 
 //    val morseCode = "... --- -- . / -- . ... ... .- --. . / --. --- / .... . .-. . --..-- / .. - / -.-. .- -. / -... . / .-.. --- -. --. --..-- / ...- . .-. -.-- / .-.. --- -. --. / --- .-. / ... .... --- .-. - --..-- / .. / -.. --- -. .----. - / -.- -. --- .-- / .. - .----. ... / .- -.-. - ..- .- .-.. / .-.. . -. --. - .... --..-- / -... ..- - / .. / -.-. .- -. / - .-. -.-- / - --- / -.-. --- ...- . .-. / .. - / - --- --- / -... -.-- / -.-. --- ...- . .-. .. -. --. / - .... .- - / .-- .... .. .-.. . / -.. . ... .. --. -. .. -. --. .-.-.- //\n"
 
     val scrollState =  rememberScrollState()
     val clipBoardManager = LocalClipboardManager.current
 
-    var expanded by remember { mutableStateOf(false) }
+//    var expanded by remember { mutableStateOf(false) }
     val options = listOf("Sound", "Flashlight")
+    var isExpanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(options[0]) }
 
     Box(
@@ -103,7 +104,9 @@ fun ResultScreen(morseCode: String) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navcontroller.navigate(Screens.Home.route)
+                    },
                     colors = ButtonDefaults.buttonColors(Color.DarkGray)
                 ) {
                     Text("Do another one")
@@ -111,18 +114,21 @@ fun ResultScreen(morseCode: String) {
 
                 Spacer(Modifier.height(20.dp))
 
-
-
                 Box {
                     Button(
-                        onClick = {},
+                        onClick = {
+                            isExpanded = !isExpanded
+                        },
                         colors = ButtonDefaults.buttonColors(Color.Black)
                     ) {
                         Text("Transmit")
                     }
+                    
+                    TODO("do color change of drop down lists")
+                    
                     DropdownMenu(
-                        expanded = true,
-                        onDismissRequest = { expanded = false},
+                        expanded = isExpanded,
+                        onDismissRequest = { isExpanded = false},
                         modifier = Modifier
                             .background(
                                 Color.DarkGray,
@@ -138,7 +144,7 @@ fun ResultScreen(morseCode: String) {
                                     modifier = Modifier.fillMaxWidth()
                                 ) },
                                 onClick = {
-                                    /*TODO*/
+                                    /*TODO Implement transmit funmftions*/
                                     //                                repository.label
                                 }
                             )

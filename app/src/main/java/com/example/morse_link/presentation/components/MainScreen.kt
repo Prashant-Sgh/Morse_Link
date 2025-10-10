@@ -155,8 +155,8 @@ fun MainScreen(
                 onClick = {
                     viewmodel.UpdateMessage(message)
                     viewmodel.UpdateProcessingState(true)
-                    navController.navigate(Screens.Loading.route)
                     viewmodel.ConvertToMorse(message)
+                    navController.navigate(Screens.Loading.route)
                 },
                 modifier = Modifier
                     .fillMaxWidth()

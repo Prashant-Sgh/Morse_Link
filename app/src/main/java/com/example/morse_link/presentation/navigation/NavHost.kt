@@ -40,7 +40,7 @@ fun AppNavHost(
                 })
         }
         composable(Screens.Result.route) {
-            ResultScreen(morseCode = morseCode)
+            ResultScreen(morseCode = morseCode, navcontroller = navController)
         }
     }
 

@@ -24,9 +24,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.airbnb.lottie.LottieComposition
 import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieClipSpec
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.morse_link.presentation.navigation.Screens
 import kotlin.random.Random
@@ -42,29 +44,30 @@ fun ProcessingOverlay(
             contentAlignment = Alignment.Center
         ) {
             val randomLoader = Random.nextInt(1,9)
+            val lottieAnimatable = rememberLottieAnimatable()
             val composition by rememberLottieComposition(
-                LottieCompositionSpec.Asset("LOADER-4.json")
+                LottieCompositionSpec.Asset("LOADER-$randomLoader.json")
             )
-            val progress by animateLottieCompositionAsState(
-                composition = composition,
-                iterations = 2,
-                isPlaying = true,
-                restartOnPlay = true
-            )
+//            val progress by animateLottieCompositionAsState(
+//                composition = composition,
+//                iterations = 2,
+//                isPlaying = true,
+//                restartOnPlay = false
+//            )
             LottieAnimation(
                 composition,
-                progress = { progress },
-                modifier = Modifier.width(if (randomLoader == 8)  (300.dp) else (150.dp))
+                progress = { lottieAnimatable.progress },
+                modifier = Modifier.width(if (randomLoader == 8)  (300.dp) else (150.dp)),
+
             )
 
-            var completedCycle by rememberSaveable { mutableStateOf(0) }
-
-            LaunchedEffect(progress) {
-                if (progress >= 1) {
-                    completedCycle++
-                    if (completedCycle == 2) {
-                        onComplete()
-                    }
+            LaunchedEffect(composition) {
+                if (composition != null) {
+                    lottieAnimatable.animate(
+                        composition = composition,
+                        iterations = 1
+                    )
+                    onComplete()
                 }
             }
 
