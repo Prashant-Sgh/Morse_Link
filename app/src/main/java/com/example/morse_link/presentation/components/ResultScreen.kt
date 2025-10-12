@@ -38,7 +38,7 @@ import com.example.morse_link.presentation.navigation.Screens
 
 //@Preview(showBackground = true)
 @Composable
-fun ResultScreen(morseCode: String, navcontroller: NavHostController) {
+fun ResultScreen(morseCode: String, navcontroller: NavHostController, transmit : () -> Unit) {
 
 //    val morseCode = "... --- -- . / -- . ... ... .- --. . / --. --- / .... . .-. . --..-- / .. - / -.-. .- -. / -... . / .-.. --- -. --. --..-- / ...- . .-. -.-- / .-.. --- -. --. / --- .-. / ... .... --- .-. - --..-- / .. / -.. --- -. .----. - / -.- -. --- .-- / .. - .----. ... / .- -.-. - ..- .- .-.. / .-.. . -. --. - .... --..-- / -... ..- - / .. / -.-. .- -. / - .-. -.-- / - --- / -.-. --- ...- . .-. / .. - / - --- --- / -... -.-- / -.-. --- ...- . .-. .. -. --. / - .... .- - / .-- .... .. .-.. . / -.. . ... .. --. -. .. -. --. .-.-.- //\n"
 
@@ -117,39 +117,41 @@ fun ResultScreen(morseCode: String, navcontroller: NavHostController) {
                 Box {
                     Button(
                         onClick = {
-                            isExpanded = !isExpanded
+//                            isExpanded = !isExpanded
+                            navcontroller.navigate(Screens.Transmit.route)
+                            transmit()
                         },
                         colors = ButtonDefaults.buttonColors(Color.Black)
                     ) {
                         Text("Transmit")
                     }
                     
-                    TODO("do color change of drop down lists")
+//                    TODO("do color change of drop down lists")
                     
-                    DropdownMenu(
-                        expanded = isExpanded,
-                        onDismissRequest = { isExpanded = false},
-                        modifier = Modifier
-                            .background(
-                                Color.DarkGray,
-                                shape = RoundedCornerShape(16.dp)
-                            )
-                    ) {
-                        options.forEach { label ->
-                            DropdownMenuItem(
-                                text = { Text(
-                                    label,
-                                    color = Color.White,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier.fillMaxWidth()
-                                ) },
-                                onClick = {
-                                    /*TODO Implement transmit funmftions*/
-                                    //                                repository.label
-                                }
-                            )
-                        }
-                    }
+//                    DropdownMenu(
+//                        expanded = isExpanded,
+//                        onDismissRequest = { isExpanded = false},
+//                        modifier = Modifier
+//                            .background(
+//                                Color.DarkGray,
+//                                shape = RoundedCornerShape(16.dp)
+//                            )
+//                    ) {
+//                        options.forEach { label ->
+//                            DropdownMenuItem(
+//                                text = { Text(
+//                                    label,
+//                                    color = Color.White,
+//                                    textAlign = TextAlign.Center,
+//                                    modifier = Modifier.fillMaxWidth()
+//                                ) },
+//                                onClick = {
+//                                    /*TODO Implement transmit funmftions*/
+//                                    //                                repository.label
+//                                }
+//                            )
+//                        }
+//                    }
                 }
 
             }

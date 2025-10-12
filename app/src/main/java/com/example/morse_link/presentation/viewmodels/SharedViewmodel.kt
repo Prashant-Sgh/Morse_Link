@@ -39,7 +39,7 @@ class SharedViewmodel @Inject constructor(
         repository.transmitThroFlashlight(morseCode)
     }
 
-    suspend fun TransmitSound(morseCode: String) {
+    fun TransmitSound(morseCode: String) {
         repository.transmitThroSound(morseCode)
     }
 

@@ -1,5 +1,6 @@
 package com.example.morse_link.data.repository
 
+import com.example.morse_link.data.hardware.ToneGenerator
 import com.example.morse_link.data.model.MorseMap
 import javax.inject.Inject
 
@@ -23,12 +24,12 @@ class Repository @Inject constructor
     }
 
 
-    suspend fun transmitSound(morseCode: String) {
-        /*TODO - implement flashlight transmit*/
+    fun transmitSound(morseCode: String) {
+        ToneGenerator().generateTone(morseCode)
     }
 
     suspend fun transmitBoth(morseCode: String) {
-        /*TODO - implement flashlight transmit*/
+        /*TODO - implement Both transmit*/
     }
 
 }

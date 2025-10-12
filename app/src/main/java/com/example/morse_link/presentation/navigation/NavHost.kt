@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.morse_link.presentation.components.ProcessingOverlay
 import com.example.morse_link.presentation.components.ResultScreen
+import com.example.morse_link.presentation.components.TransmitScreen
 import com.example.morse_link.presentation.screens.HomeScreen
 import com.example.morse_link.presentation.viewmodels.SharedViewmodel
 
@@ -40,7 +41,16 @@ fun AppNavHost(
                 })
         }
         composable(Screens.Result.route) {
-            ResultScreen(morseCode = morseCode, navcontroller = navController)
+            ResultScreen(
+                morseCode = morseCode,
+                navcontroller = navController,
+                transmit = {
+                    viewmodel.TransmitSound(morseCode)
+                }
+            )
+        }
+        composable(Screens.Transmit.route) {
+            TransmitScreen(navController)
         }
     }
 
