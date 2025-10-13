@@ -67,15 +67,15 @@ class ToneGenerator {
 //            audioTrack.release()
 //        }
 
-        val sampleRate = 44100
-        val frequency = 600
-        val dotDuration = 200
+        val sampleRate = 48000
+        val frequency = 800
+        val dotDuration = 80
         val dashDuration = dotDuration * 3
         val gapDuration = dotDuration
         val spaceDuration = dotDuration * 7
 
         fun generateTone(duration: Int): ShortArray {
-            val audioSlices = ( ( duration / 1000 ) * sampleRate ).toInt()
+            val audioSlices = ( duration / 1000.0 * sampleRate ).toInt()
             val audioBuffer = ShortArray(audioSlices)
             for (i in audioBuffer.indices) {
                 val angle = 2.0 * Math.PI * i * frequency / sampleRate
@@ -85,7 +85,7 @@ class ToneGenerator {
         }
 
         fun generateSilence( duration: Int): ShortArray {
-            val slices = ( ( duration / 1000 ) * sampleRate ).toInt()
+            val slices = (  duration / 1000.0  * sampleRate ).toInt()
             return ShortArray(slices) { 0 }
         }
 
@@ -134,6 +134,7 @@ class ToneGenerator {
 
         scope.launch {
             audioTrack.play()
+            audioTrack.write(generateSilence(2000), 0, (2000 * sampleRate) / 1000 )
             for ( symbol in morseCode ) {
                 val tone = when (symbol) {
                     '.' -> generateTone(dotDuration)
@@ -147,9 +148,9 @@ class ToneGenerator {
             audioTrack.release()
         }
 
-        scope.cancel()
-        audioTrack.stop()
-        audioTrack.release()
+//        scope.cancel()
+//        audioTrack.stop()
+//        audioTrack.release()
 
     }
 

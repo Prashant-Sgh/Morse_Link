@@ -5,12 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -18,6 +20,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -67,63 +70,71 @@ fun ResultScreen(morseCode: String, navcontroller: NavHostController, transmit :
                 fontSize = 23.sp,
                 fontWeight = FontWeight.Normal,
                 modifier = Modifier
-                    .padding(start = 46.dp, end = 46.dp, top = 60.dp, bottom = 40.dp)
+                    .padding(start = 46.dp, end = 46.dp, top = 100.dp, bottom = 80.dp)
             )
 
             Column(
                 horizontalAlignment = Alignment.End
             ) {
-
                 Text(
                     "copy",
                     color = Color.DarkGray,
                     fontSize = 13.sp,
-                    modifier = Modifier.clickable(enabled = true, onClick = {
+                    modifier = Modifier.clickable(
+                        enabled = true,
+                        onClick = {
                         clipBoardManager.setText(AnnotatedString(morseCode))
                     })
                 )
 
                 Box(
                     modifier = Modifier
-                        .height(300.dp)
+                        .height(500.dp)
+                        .padding(horizontal = 15.dp)
                         .verticalScroll(scrollState)
                 ) {
                     Text(
                         text = morseCode,
                         softWrap = true,
                         textAlign = TextAlign.Center,
-                        fontSize = 17.sp
+                        fontSize = 30.sp
                     )
                 }
             }
 
-            Spacer(Modifier.height(70.dp))
+            Spacer(Modifier.weight(1f))
 
-            Column (
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth().
+                    padding(bottom = 95.dp),
+                verticalAlignment = Alignment.CenterVertically
             ){
                 Button(
                     onClick = {
                         navcontroller.navigate(Screens.Home.route)
                     },
-                    colors = ButtonDefaults.buttonColors(Color.DarkGray)
+                    colors = ButtonDefaults.buttonColors(Color.Transparent)
                 ) {
-                    Text("Do another one")
+                    Text("Do another one", color = Color.DarkGray)
                 }
 
-                Spacer(Modifier.height(20.dp))
+                Spacer(Modifier.width(44.dp))
 
                 Box {
-                    Button(
+                    OutlinedButton(
                         onClick = {
 //                            isExpanded = !isExpanded
                             navcontroller.navigate(Screens.Transmit.route)
                             transmit()
                         },
-                        colors = ButtonDefaults.buttonColors(Color.Black)
+//                        colors = ButtonDefaults.buttonColors(Color.DarkGray)
                     ) {
-                        Text("Transmit")
+                        Text(
+                            "Transmit",
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black
+                            )
                     }
                     
 //                    TODO("do color change of drop down lists")
@@ -155,6 +166,7 @@ fun ResultScreen(morseCode: String, navcontroller: NavHostController, transmit :
                 }
 
             }
+//            Spacer(Modifier.weight(0.3f))
         }
     }
 }

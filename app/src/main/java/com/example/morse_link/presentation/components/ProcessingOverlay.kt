@@ -48,12 +48,7 @@ fun ProcessingOverlay(
             val composition by rememberLottieComposition(
                 LottieCompositionSpec.Asset("LOADER-$randomLoader.json")
             )
-//            val progress by animateLottieCompositionAsState(
-//                composition = composition,
-//                iterations = 2,
-//                isPlaying = true,
-//                restartOnPlay = false
-//            )
+
             LottieAnimation(
                 composition,
                 progress = { lottieAnimatable.progress },

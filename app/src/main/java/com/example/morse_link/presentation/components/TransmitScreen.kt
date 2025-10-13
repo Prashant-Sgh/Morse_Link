@@ -46,28 +46,10 @@ fun TransmitScreen(navController: NavHostController) {
                 fontSize = 23.sp,
                 fontWeight = FontWeight.Normal,
                 modifier = Modifier
-                    .padding(start = 46.dp, end = 46.dp, top = 60.dp, bottom = 40.dp)
+                    .padding(start = 46.dp, end = 46.dp, top = 100.dp, bottom = 40.dp)
             )
 
             Spacer(Modifier.weight(0.35f))
-
-//            Box(
-//                modifier = Modifier
-//                    .background(color = Color.Gray,
-//                        shape = RoundedCornerShape(200.dp)
-//                    )
-//                    .size(280.dp),
-//                contentAlignment = Alignment.Center
-//            ) {
-//                Box(
-//                    modifier = Modifier
-//                        .background(color = Color.DarkGray, shape = RoundedCornerShape(100.dp))
-//                        .size(180.dp),
-//                    contentAlignment = Alignment.Center
-//                ) {
-//                    Text("STOP", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color.White, letterSpacing = 1.sp)
-//                }
-//            }
 
             Box(
                 modifier = Modifier
@@ -87,11 +69,11 @@ fun TransmitScreen(navController: NavHostController) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = if (isTransmitting) "STOP" else "Resume",
+                    text = if (isTransmitting) "PAUSE" else "RESUME",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
-                    letterSpacing = 1.sp
+                    letterSpacing = 2.sp
                 )
             }
 
@@ -106,7 +88,7 @@ fun TransmitScreen(navController: NavHostController) {
                 modifier = Modifier.padding(bottom = 140.dp)
                 ) {
                 Text(
-                    "Go Home",
+                    "Cancel & Return",
                     color = Color.DarkGray
                 )
             }

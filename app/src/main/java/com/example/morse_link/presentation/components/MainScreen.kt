@@ -87,7 +87,7 @@ fun MainScreen(
             Text(
                 "Enter your message here and press convert.",
                 textAlign = TextAlign.Center,
-                fontSize = 19.sp,
+                fontSize = 17.sp,
                 fontWeight = FontWeight.Light,
                 modifier = Modifier
                     .padding(horizontal = 46.dp)
@@ -98,28 +98,37 @@ fun MainScreen(
             ){
                 OutlinedTextField(
                     modifier = Modifier
-                        .padding(top = 20.dp)
+                        .padding(top = 40.dp)
                         .fillMaxWidth()
                         .background(color = Color.Transparent),
 
                     value = message,
                     onValueChange = { message = it},
-                    label = { Text("Message", fontWeight = FontWeight.Light) },
-                    textStyle = TextStyle(color = Color(0xFF595959), fontSize = 16.sp),
+                    label = { Text("Message", fontWeight = FontWeight.Normal) },
+                    textStyle = TextStyle(
+                        color = Color(0xFF595959),
+                        fontSize = 15.sp,
+                        letterSpacing = 1.sp,
+                        textAlign = TextAlign.Center
+                        ),
                     enabled = true,
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color(0xFF19C001),
-                        focusedLabelColor = Color(0xFF19C001),
+//                        focusedBorderColor = Color(0xFF19C001),
+//                        focusedLabelColor = Color.Black,
+                        focusedBorderColor = Color(0xFF3054FF),
+                        focusedLabelColor = Color(0xFF3054FF),
                         unfocusedBorderColor = Color(0xFF3054FF),
                         unfocusedLabelColor = Color(0xFF3054FF),
-                        cursorColor = Color(0xFF19C001),
+                        cursorColor = Color(0xFF3054FF),
                     ),
                     singleLine = false,
                     maxLines = 22,
                 )
 
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 2.dp, start = 6.dp, end = 6.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -165,7 +174,7 @@ fun MainScreen(
                         end = 46.dp,
                         bottom = 50.dp
                     ),
-                colors = ButtonDefaults.buttonColors(Color.DarkGray)
+                colors = ButtonDefaults.buttonColors(Color(0xFF3054FF))
                 ) {
                 Text("Convert")
             }
