@@ -5,6 +5,11 @@ import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
 import android.os.Build
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import kotlin.math.sin
 
 class ToneGenerator {
@@ -125,19 +130,27 @@ class ToneGenerator {
             )
         }
 
-        audioTrack.play()
+        val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
-        for ( symbol in morseCode ) {
-            val tone = when (symbol) {
-                '.' -> generateTone(dotDuration)
-                '-' -> generateTone(dashDuration)
-                else -> generateSilence(spaceDuration)
+        scope.launch {
+            audioTrack.play()
+            for ( symbol in morseCode ) {
+                val tone = when (symbol) {
+                    '.' -> generateTone(dotDuration)
+                    '-' -> generateTone(dashDuration)
+                    else -> generateSilence(spaceDuration)
+                }
+                audioTrack.write(tone, 0, tone.size)
+                audioTrack.write(generateSilence(gapDuration), 0, (gapDuration * sampleRate) / 1000 )
             }
-            audioTrack.write(tone, 0, tone.size)
-            audioTrack.write(generateSilence(gapDuration), 0, (gapDuration * sampleRate) / 1000 )
+            audioTrack.stop()
+            audioTrack.release()
         }
+
+        scope.cancel()
         audioTrack.stop()
         audioTrack.release()
+
     }
 
 }
