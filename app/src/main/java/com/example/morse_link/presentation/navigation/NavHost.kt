@@ -45,12 +45,19 @@ fun AppNavHost(
                 morseCode = morseCode,
                 navcontroller = navController,
                 transmit = {
-                    viewmodel.TransmitSound(morseCode)
+//                    viewmodel.toggleTonePlayStatus()
+                    viewmodel.TransmitSound(
+                        morseCode = morseCode,
+                        isPaused = viewmodel.isPause
+                    )
                 }
             )
         }
         composable(Screens.Transmit.route) {
-            TransmitScreen(navController)
+            TransmitScreen(
+                navController,
+                { viewmodel.toggleTonePlayStatus() }
+                )
         }
     }
 

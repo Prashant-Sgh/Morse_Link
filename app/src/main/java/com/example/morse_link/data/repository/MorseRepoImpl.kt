@@ -1,6 +1,8 @@
 package com.example.morse_link.data.repository
 
 import com.example.morse_link.domain.morseRepo.MorseRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 class MorseRepoImpl @Inject constructor(
@@ -14,8 +16,8 @@ class MorseRepoImpl @Inject constructor(
         repository.transmitFlashLight(morseCode)
     }
 
-    override fun transmitThroSound(morseCode: String) {
-        repository.transmitSound(morseCode)
+    override fun transmitThroSound(scope: CoroutineScope, morseCode: String, isPause: StateFlow<Boolean>) {
+        repository.transmitSound(scope, morseCode, isPause)
     }
 
     override suspend fun transmitThroBoth(morseCode: String) {

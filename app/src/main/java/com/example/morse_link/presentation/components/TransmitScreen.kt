@@ -28,7 +28,10 @@ import com.example.morse_link.presentation.navigation.Screens
 
 //@Preview (showBackground = true)
 @Composable
-fun TransmitScreen(navController: NavHostController) {
+fun TransmitScreen(
+    navController: NavHostController,
+    onStateChange: () -> Unit
+) {
 
     var isTransmitting by remember { mutableStateOf(true) }
 
@@ -64,6 +67,7 @@ fun TransmitScreen(navController: NavHostController) {
                         enabled = true,
                         onClick = {
                             isTransmitting = !isTransmitting
+                            onStateChange()
                         }
                     ),
                 contentAlignment = Alignment.Center
