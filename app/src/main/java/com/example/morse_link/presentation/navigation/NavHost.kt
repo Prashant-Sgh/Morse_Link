@@ -56,7 +56,9 @@ fun AppNavHost(
         composable(Screens.Transmit.route) {
             TransmitScreen(
                 navController,
-                { viewmodel.toggleTonePlayStatus() }
+                {
+                    viewmodel.toggleTonePlayStatus()
+                }
                 )
         }
     }
