@@ -17,44 +17,26 @@ class FlashlightController {
     val gapDuration = dotDuration
     val spaceDuration = dotDuration * 7
 
+
+    fun startPreview () {
+        camera = Camera.open()
+        val params = camera!!.parameters
+        params.flashMode = Camera.Parameters.FLASH_MODE_OFF
+        camera!!.parameters = params
+        camera!!.startPreview()
+    }
+
     // call this only after AccessCamera.hasCamera == true
-    fun turnOnTorch () {
-        try {
-            camera = Camera.open()
-            val params = camera!!.parameters
-            params.flashMode = Camera.Parameters.FLASH_MODE_TORCH
-            camera!!.parameters = params
-            camera!!.startPreview()
-        }
-        catch (e: Exception) {
-            hasException.value = true
-        }
-    }
+    fun toggleTorch (value: Boolean) {
+        val params = camera!!.parameters
 
-    fun turnOffTorch () {
-        try {
-            camera?.let {
-                val params = it.parameters
-                params.flashMode = Camera.Parameters.FLASH_MODE_OFF
-                it.parameters = params
-                it.stopPreview()
-                it.release()
-                camera = null
-            }
-        }
-        catch (e: Exception) {
-            hasException.value = true
-        }
-    }
-
-    suspend fun toggleTorch (value: Boolean, duration: Long) {
-        if (value) {
-            turnOnTorch()
+        params.flashMode =  if (value) {
+            Camera.Parameters.FLASH_MODE_TORCH
         }
         else{
-            turnOffTorch()
+            Camera.Parameters.FLASH_MODE_OFF
         }
-        delay(duration)
+        camera!!.parameters = params
     }
 
     var data = 0
@@ -76,8 +58,18 @@ class FlashlightController {
                     duration = spaceDuration.toLong()
                 }
             }
-            toggleTorch(value = toggleState, duration)
+            toggleTorch(value = toggleState)
+            delay(duration + gapDuration.toLong())
         }
+        stopCamera()
+    }
+
+    fun stopCamera () {
+        camera?.apply {
+            stopPreview()
+            release()
+        }
+        camera = null
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.morse_link.data.repository
 
+import android.content.Context
 import com.example.morse_link.domain.morseRepo.MorseRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
@@ -12,8 +13,8 @@ class MorseRepoImpl @Inject constructor(
         return repository.convertToMorse(message)
     }
 
-    override suspend fun transmitThroFlashlight(morseCode: String) {
-        repository.transmitFlashLight(morseCode)
+    override fun transmitThroFlashlight(morseCode: String, context: Context, result: (hasError: Boolean) -> Unit, scope: CoroutineScope) {
+        repository.transmitFlashLight(morseCode, context, result, scope)
     }
 
     override fun transmitThroSound(scope: CoroutineScope, morseCode: String, isPause: StateFlow<Boolean>) {

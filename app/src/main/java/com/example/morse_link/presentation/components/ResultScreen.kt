@@ -41,7 +41,7 @@ import com.example.morse_link.presentation.navigation.Screens
 
 //@Preview(showBackground = true)
 @Composable
-fun ResultScreen(morseCode: String, navcontroller: NavHostController, transmit : () -> Unit) {
+fun ResultScreen(morseCode: String, navcontroller: NavHostController, transmitSound : () -> Unit, transmitLight : () -> Unit, lightTransmission: Boolean) {
 
 //    val morseCode = "... --- -- . / -- . ... ... .- --. . / --. --- / .... . .-. . --..-- / .. - / -.-. .- -. / -... . / .-.. --- -. --. --..-- / ...- . .-. -.-- / .-.. --- -. --. / --- .-. / ... .... --- .-. - --..-- / .. / -.. --- -. .----. - / -.- -. --- .-- / .. - .----. ... / .- -.-. - ..- .- .-.. / .-.. . -. --. - .... --..-- / -... ..- - / .. / -.-. .- -. / - .-. -.-- / - --- / -.-. --- ...- . .-. / .. - / - --- --- / -... -.-- / -.-. --- ...- . .-. .. -. --. / - .... .- - / .-- .... .. .-.. . / -.. . ... .. --. -. .. -. --. .-.-.- //\n"
 
@@ -106,8 +106,8 @@ fun ResultScreen(morseCode: String, navcontroller: NavHostController, transmit :
 
             Row (
                 modifier = Modifier
-                    .fillMaxWidth().
-                    padding(bottom = 95.dp),
+                    .fillMaxWidth()
+                    .padding(bottom = 95.dp),
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Button(
@@ -122,19 +122,37 @@ fun ResultScreen(morseCode: String, navcontroller: NavHostController, transmit :
                 Spacer(Modifier.width(44.dp))
 
                 Box {
-                    OutlinedButton(
-                        onClick = {
-//                            isExpanded = !isExpanded
-                            navcontroller.navigate(Screens.Transmit.route)
-                            transmit()
-                        },
-//                        colors = ButtonDefaults.buttonColors(Color.DarkGray)
-                    ) {
-                        Text(
-                            "Transmit",
-                            fontWeight = FontWeight.Medium,
-                            color = Color.Black
+                    Column {
+                        OutlinedButton(
+                            onClick = {
+                                //                            isExpanded = !isExpanded
+                                navcontroller.navigate(Screens.Transmit.route)
+                                transmitSound()
+                            },
+                            //                        colors = ButtonDefaults.buttonColors(Color.DarkGray)
+                        ) {
+                            Text(
+                                "Transmit sound",
+                                fontWeight = FontWeight.Medium,
+                                color = Color.Black
                             )
+                        }
+
+                        OutlinedButton(
+                            onClick = {
+                                //                            isExpanded = !isExpanded
+                                navcontroller.navigate(Screens.Transmit.route)
+                                transmitLight()
+                            },
+                            enabled = lightTransmission
+                            //                        colors = ButtonDefaults.buttonColors(Color.DarkGray)
+                        ) {
+                            Text(
+                                "Transmit Light",
+                                fontWeight = FontWeight.Medium,
+                                color = Color.Black
+                            )
+                        }
                     }
                     
 //                    TODO("do color change of drop down lists")

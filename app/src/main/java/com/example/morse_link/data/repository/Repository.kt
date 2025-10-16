@@ -1,5 +1,9 @@
 package com.example.morse_link.data.repository
 
+import android.content.Context
+import androidx.compose.ui.platform.LocalContext
+import com.example.morse_link.data.hardware.AccessCamera
+import com.example.morse_link.data.hardware.FlashlightController
 import com.example.morse_link.data.hardware.ToneGenerator
 import com.example.morse_link.data.model.MorseMap
 import com.example.morse_link.presentation.viewmodels.SharedViewmodel
@@ -7,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -25,8 +30,18 @@ class Repository @Inject constructor
         return morseCode
     }
 
-    suspend fun transmitFlashLight(morseCode: String) {
+    fun transmitFlashLight(morseCode: String, context: Context, result: (hasError: Boolean) -> Unit, scope: CoroutineScope) {
         /*TODO - implement flashlight transmit*/
+        scope.launch{
+            if (AccessCamera().hasCamera(context)) {
+                val flashLightController = FlashlightController()
+                flashLightController.startPreview()
+                flashLightController.startLight(morseCode)
+                result(false)
+            } else {
+                result(true)
+            }
+        }
     }
 
     fun transmitSound(scope: CoroutineScope, morseCode: String, isPause: StateFlow<Boolean>) {

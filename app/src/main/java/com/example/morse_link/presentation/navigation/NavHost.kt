@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,6 +25,8 @@ fun AppNavHost(
     val message = viewmodel.messageString
     val isProcessing by viewmodel.isProcessing.collectAsState()
     val morseCode by viewmodel.morseCode.collectAsState()
+    val isLightTransmissionEnabled by viewmodel.isLightEnabled.collectAsState()
+    val context = LocalContext.current
 
     NavHost(navController = navController, startDestination = Screens.Home.route) {
         composable(Screens.Home.route) {
@@ -44,13 +47,20 @@ fun AppNavHost(
             ResultScreen(
                 morseCode = morseCode,
                 navcontroller = navController,
-                transmit = {
-//                    viewmodel.toggleTonePlayStatus()
+                transmitSound = {
                     viewmodel.TransmitSound(
                         morseCode = morseCode,
                         isPaused = viewmodel.isPause
                     )
-                }
+                },
+                transmitLight = {
+                    viewmodel.TransmitFlashlight(
+                        morseCode =  morseCode,
+                        context = context,
+                        result = { viewmodel.toggleLightEnabled(it) }
+                    )
+                },
+                lightTransmission = isLightTransmissionEnabled
             )
         }
         composable(Screens.Transmit.route) {

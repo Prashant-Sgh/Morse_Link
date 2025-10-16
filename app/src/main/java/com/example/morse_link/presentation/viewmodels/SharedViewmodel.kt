@@ -1,5 +1,6 @@
 package com.example.morse_link.presentation.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.example.morse_link.data.repository.Repository
 import com.example.morse_link.domain.morseRepo.MorseRepository
@@ -34,6 +35,9 @@ class SharedViewmodel @Inject constructor(
     private val _isResume = MutableStateFlow(false)
     val isResume: StateFlow<Boolean> = _isResume
 
+    private val _isLightEnabled = MutableStateFlow(true)
+    val  isLightEnabled: StateFlow<Boolean> = _isLightEnabled
+
 
     fun UpdateMessage(message: String) {
         _messageString.value = message
@@ -52,8 +56,12 @@ class SharedViewmodel @Inject constructor(
         _isPause.value = !_isPause.value
     }
 
-    suspend fun TransmitFlashlight(morseCode: String) {
-        repository.transmitThroFlashlight(morseCode)
+    fun toggleLightEnabled (isEnabled: Boolean) {
+        _isLightEnabled.value = isEnabled
+    }
+
+    fun TransmitFlashlight(morseCode: String, context: Context, result: (hasError: Boolean) -> Unit) {
+        repository.transmitThroFlashlight(morseCode, context, result, scope)
     }
 
     val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
