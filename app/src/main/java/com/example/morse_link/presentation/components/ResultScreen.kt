@@ -31,12 +31,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.morse_link.data.hardware.AccessCamera
 import com.example.morse_link.presentation.navigation.Screens
 
 //@Preview(showBackground = true)
@@ -50,7 +52,7 @@ fun ResultScreen(morseCode: String, navcontroller: NavHostController, transmitSo
 
 //    var expanded by remember { mutableStateOf(false) }
     val options = listOf("Sound", "Flashlight")
-    var isExpanded by remember { mutableStateOf(false) }
+    var isExpanded by remember { mutableStateOf(true) }
     var selectedOptionText by remember { mutableStateOf(options[0]) }
 
     Box(
@@ -93,98 +95,108 @@ fun ResultScreen(morseCode: String, navcontroller: NavHostController, transmitSo
                         .padding(horizontal = 15.dp)
                         .verticalScroll(scrollState)
                 ) {
-                    Text(
-                        text = morseCode,
-                        softWrap = true,
-                        textAlign = TextAlign.Center,
-                        fontSize = 30.sp
-                    )
+                    Column {
+                        Text(
+                            text = morseCode,
+                            softWrap = true,
+                            textAlign = TextAlign.Center,
+                            fontSize = 30.sp
+                        )
+
+                        Text("VVVVVVVVVVVV")
+
+                        Button(
+                            onClick = {
+                                navcontroller.navigate(Screens.Home.route)
+                            },
+                            colors = ButtonDefaults.buttonColors(Color.Transparent)
+                        ) {
+                            Text("Do another one", color = Color.DarkGray)
+                        }
+
+                        Spacer(Modifier.width(44.dp))
+
+                        OutlinedButton(
+                            onClick = {
+                                navcontroller.navigate(Screens.Transmit.route)
+                                transmitSound()
+                            },
+                        ) {
+                            Text(
+                                "Transmit sound",
+                                fontWeight = FontWeight.Medium,
+                                color = if (AccessCamera().hasCamera(LocalContext.current)) Color.Green else Color.Black
+                            )
+                        }
+
+                        OutlinedButton(
+                            onClick = {
+                                navcontroller.navigate(Screens.Transmit.route)
+                                transmitLight()
+                            },
+                            enabled = lightTransmission
+                        ) {
+                            Text(
+                                "Transmit Light",
+                                fontWeight = FontWeight.Medium,
+                                color = if (lightTransmission) Color.Green else Color.Black
+                            )
+                        }
+
+                    }
                 }
             }
 
             Spacer(Modifier.weight(1f))
 
-            Row (
+            Column (
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 95.dp),
-                verticalAlignment = Alignment.CenterVertically
+                horizontalAlignment = Alignment.CenterHorizontally
             ){
-                Button(
-                    onClick = {
-                        navcontroller.navigate(Screens.Home.route)
-                    },
-                    colors = ButtonDefaults.buttonColors(Color.Transparent)
-                ) {
-                    Text("Do another one", color = Color.DarkGray)
-                }
-
-                Spacer(Modifier.width(44.dp))
-
-                Box {
-                    Column {
-                        OutlinedButton(
-                            onClick = {
-                                //                            isExpanded = !isExpanded
-                                navcontroller.navigate(Screens.Transmit.route)
-                                transmitSound()
-                            },
-                            //                        colors = ButtonDefaults.buttonColors(Color.DarkGray)
-                        ) {
-                            Text(
-                                "Transmit sound",
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black
-                            )
-                        }
-
-                        OutlinedButton(
-                            onClick = {
-                                //                            isExpanded = !isExpanded
-                                navcontroller.navigate(Screens.Transmit.route)
-                                transmitLight()
-                            },
-                            enabled = lightTransmission
-                            //                        colors = ButtonDefaults.buttonColors(Color.DarkGray)
-                        ) {
-                            Text(
-                                "Transmit Light",
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    
-//                    TODO("do color change of drop down lists")
-                    
-//                    DropdownMenu(
-//                        expanded = isExpanded,
-//                        onDismissRequest = { isExpanded = false},
-//                        modifier = Modifier
-//                            .background(
-//                                Color.DarkGray,
-//                                shape = RoundedCornerShape(16.dp)
-//                            )
-//                    ) {
-//                        options.forEach { label ->
-//                            DropdownMenuItem(
-//                                text = { Text(
-//                                    label,
-//                                    color = Color.White,
-//                                    textAlign = TextAlign.Center,
-//                                    modifier = Modifier.fillMaxWidth()
-//                                ) },
-//                                onClick = {
-//                                    /*TODO Implement transmit funmftions*/
-//                                    //                                repository.label
-//                                }
-//                            )
-//                        }
-//                    }
-                }
+//                Button(
+//                    onClick = {
+//                        navcontroller.navigate(Screens.Home.route)
+//                    },
+//                    colors = ButtonDefaults.buttonColors(Color.Transparent)
+//                ) {
+//                    Text("Do another one", color = Color.DarkGray)
+//                }
+//
+//                Spacer(Modifier.width(44.dp))
+//                OutlinedButton(
+//                    onClick = {
+//                        //                            isExpanded = !isExpanded
+//                        navcontroller.navigate(Screens.Transmit.route)
+//                        transmitSound()
+//                    },
+//                    //                        colors = ButtonDefaults.buttonColors(Color.DarkGray)
+//                ) {
+//                    Text(
+//                        "Transmit sound",
+//                        fontWeight = FontWeight.Medium,
+//                        color = Color.Black
+//                    )
+//                }
+//
+//                OutlinedButton(
+//                    onClick = {
+//                        //                            isExpanded = !isExpanded
+//                        navcontroller.navigate(Screens.Transmit.route)
+//                        transmitLight()
+//                    },
+//                    enabled = lightTransmission
+//                    //                        colors = ButtonDefaults.buttonColors(Color.DarkGray)
+//                ) {
+//                    Text(
+//                        "Transmit Light",
+//                        fontWeight = FontWeight.Medium,
+//                        color = Color.Black
+//                    )
+//                }
 
             }
-//            Spacer(Modifier.weight(0.3f))
         }
     }
 }

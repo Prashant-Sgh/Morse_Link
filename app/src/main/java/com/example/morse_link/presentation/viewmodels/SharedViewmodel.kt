@@ -2,6 +2,7 @@ package com.example.morse_link.presentation.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.morse_link.data.repository.Repository
 import com.example.morse_link.domain.morseRepo.MorseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -61,7 +62,7 @@ class SharedViewmodel @Inject constructor(
     }
 
     fun TransmitFlashlight(morseCode: String, context: Context, result: (hasError: Boolean) -> Unit) {
-        repository.transmitThroFlashlight(morseCode, context, result, scope)
+        repository.transmitThroFlashlight(morseCode, context, result, scope = viewModelScope)
     }
 
     val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())

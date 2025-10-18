@@ -6,12 +6,9 @@ import android.content.pm.PackageManager
 class AccessCamera {
 
     fun hasCamera (context: Context): Boolean {
-        if (context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            return true
-        }
-        else {
-            return false
-        }
+        val pm = context.packageManager
+        return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) && pm.hasSystemFeature(
+            PackageManager.FEATURE_CAMERA_FLASH)
     }
 
 }

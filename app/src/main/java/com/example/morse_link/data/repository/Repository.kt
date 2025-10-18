@@ -1,7 +1,11 @@
 package com.example.morse_link.data.repository
 
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import com.example.morse_link.data.hardware.AccessCamera
 import com.example.morse_link.data.hardware.FlashlightController
 import com.example.morse_link.data.hardware.ToneGenerator
@@ -31,13 +35,28 @@ class Repository @Inject constructor
     }
 
     fun transmitFlashLight(morseCode: String, context: Context, result: (hasError: Boolean) -> Unit, scope: CoroutineScope) {
-        /*TODO - implement flashlight transmit*/
-        scope.launch{
+        scope.launch(Dispatchers.IO){
             if (AccessCamera().hasCamera(context)) {
-                val flashLightController = FlashlightController()
-                flashLightController.startPreview()
-                flashLightController.startLight(morseCode)
-                result(false)
+                Log.d("cameraError", "The device has camera and flash mode")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    Log.d("cameraError", "And the device is a legacy device")
+                    val flashLightController = FlashlightController()
+                    Log.d("cameraError", "FlashLightController() initiated")
+
+                    if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        Log.d("cameraError", "Camera permission denied")
+                        Log.d("cameraError", "Camera permission denied")
+                        Log.d("cameraError", "Camera permission denied")
+                    }
+
+                    flashLightController.startPreview()
+                    Log.d("cameraError", "startPreview Started")
+                    flashLightController.startLight(morseCode)
+                    Log.d("cameraError", "startLight called")
+                    result(flashLightController.hasError.value)
+                    Log.d("cameraError", "value set for hasError to: ${flashLightController.hasError.value}")
+                }
+                Log.d("cameraError", "But, the device is not a legacy device ${Build.VERSION.SDK_INT}")
             } else {
                 result(true)
             }
