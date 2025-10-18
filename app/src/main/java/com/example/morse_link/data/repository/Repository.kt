@@ -39,24 +39,24 @@ class Repository @Inject constructor
             if (AccessCamera().hasCamera(context)) {
                 Log.d("cameraError", "The device has camera and flash mode")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    Log.d("cameraError", "And the device is a legacy device")
+                    Log.d("cameraError", "And the device is API 23+")
                     val flashLightController = FlashlightController()
                     Log.d("cameraError", "FlashLightController() initiated")
 
-                    if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        Log.d("cameraError", "Camera permission denied")
-                        Log.d("cameraError", "Camera permission denied")
-                        Log.d("cameraError", "Camera permission denied")
-                    }
+//                    if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//                        Log.d("cameraError", "Camera permission denied")
+////                        requestCameraPermission().
+//                        Log.d("cameraError", "Camera permission denied")
+//                        Log.d("cameraError", "Camera permission denied")
+//                    }
 
                     flashLightController.startPreview()
-                    Log.d("cameraError", "startPreview Started")
+                    Log.d("cameraError", "startPreview DONE")
                     flashLightController.startLight(morseCode)
-                    Log.d("cameraError", "startLight called")
+                    Log.d("cameraError", "startLight DONE")
                     result(flashLightController.hasError.value)
                     Log.d("cameraError", "value set for hasError to: ${flashLightController.hasError.value}")
                 }
-                Log.d("cameraError", "But, the device is not a legacy device ${Build.VERSION.SDK_INT}")
             } else {
                 result(true)
             }

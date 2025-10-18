@@ -1,5 +1,7 @@
 package com.example.morse_link.presentation.navigation
 
+import android.Manifest
+import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,7 +21,8 @@ import com.example.morse_link.presentation.viewmodels.SharedViewmodel
 fun AppNavHost(
     navController: NavHostController = rememberNavController(),
     viewmodel: SharedViewmodel,
-    modifier: Modifier
+    modifier: Modifier,
+    requestCameraPermission: ActivityResultLauncher<String>
 ) {
 
     val message = viewmodel.messageString
@@ -44,6 +47,7 @@ fun AppNavHost(
                 })
         }
         composable(Screens.Result.route) {
+            requestCameraPermission.launch(Manifest.permission.CAMERA)
             ResultScreen(
                 morseCode = morseCode,
                 navcontroller = navController,

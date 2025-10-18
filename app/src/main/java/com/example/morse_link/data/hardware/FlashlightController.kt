@@ -40,7 +40,7 @@ class FlashlightController {
         }
         catch (e: Exception) {
             hasError.value = true
-            Log.d("cameraError", "the error is: $e")
+            Log.d("cameraError", "ERROR - the error is: $e")
         }
     }
 
@@ -48,22 +48,24 @@ class FlashlightController {
     fun toggleTorch (value: Boolean) {
         camera?.let{
             val params = camera!!.parameters
-
-            params.flashMode = if (value) {
-                Camera.Parameters.FLASH_MODE_TORCH
+            if (value) {
+                params.flashMode = Camera.Parameters.FLASH_MODE_TORCH
+                Log.d("cameraError", "Flash - ON")
             } else {
-                Camera.Parameters.FLASH_MODE_OFF
+                params.flashMode = Camera.Parameters.FLASH_MODE_OFF
+                Log.d("cameraError", "Flash - OFF")
             }
             camera!!.parameters = params
         }?: run {
             hasError.value = true
-            Log.d("cameraError", "toggleTorch - the camera class is null.")
+            Log.d("cameraError", "ERROR - toggleTorch - the camera class is null.")
         }
     }
 
     suspend fun startLight(morseCode: String) {
-        if (hasError.value) {
+        if (!hasError.value) {
             try {
+                Log.d("cameraError", "startLight() - Getting started to transmit light signals")
                 for (code in morseCode) {
                     val duration: Long
                     val toggleState: Boolean
@@ -90,7 +92,7 @@ class FlashlightController {
                 }
             } catch (e: Exception) {
                 hasError.value = true
-                Log.d("cameraError", "startLight function fails, the error was - $e")
+                Log.d("cameraError", "ERROR - startLight function fails, the error was - $e")
             } finally {
                 stopCamera()
             }
