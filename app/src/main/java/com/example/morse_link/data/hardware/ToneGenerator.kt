@@ -36,9 +36,15 @@ class ToneGenerator (private val scope: CoroutineScope, private val morseCode: S
     suspend fun playTone(
         bufferShort: ShortArray,
         isPaused: StateFlow<Boolean>,
-        audioTrack: AudioTrack
+        audioTrack: AudioTrack,
+        isCanceled: StateFlow<Boolean>
     ) {
         while (!isCompleted.value) {
+            if (isCanceled.value) {
+                isCompleted.value = true
+                releaseAudioTrack()
+                scope.cancel()
+            }
             if (!isPaused.value && indexPlayed < bufferShort.size) {
                 audioTrack.write(shortArrayOf(bufferShort[indexPlayed]), 0, 1)
                 indexPlayed++
@@ -46,16 +52,14 @@ class ToneGenerator (private val scope: CoroutineScope, private val morseCode: S
                 delay(100)
             } else if (indexPlayed == bufferShort.size) {
                 isCompleted.value = true
-                audioTrack.stop()
-                audioTrack.release()
+                releaseAudioTrack()
                 scope.cancel()
             }
         }
     }
 
-    fun startTone(isPause: StateFlow<Boolean>) {
-
-        val audioTrack: AudioTrack = CreateAudioTrack(sampleRate).getAudioTrack()
+    val audioTrack: AudioTrack = CreateAudioTrack(sampleRate).getAudioTrack()
+    fun startTone(isPause: StateFlow<Boolean>, isCanceled: StateFlow<Boolean>) {
         var bufferShort = shortArrayOf()
 
         audioTrack.play()
@@ -74,7 +78,14 @@ class ToneGenerator (private val scope: CoroutineScope, private val morseCode: S
                     audioTrack = audioTrack,
                     bufferShort = bufferShort,
                     isPaused = isPause,
+                    isCanceled = isCanceled
                 )
         }
     }
+
+    fun releaseAudioTrack() {
+        audioTrack.stop()
+        audioTrack.release()
+    }
+
 }

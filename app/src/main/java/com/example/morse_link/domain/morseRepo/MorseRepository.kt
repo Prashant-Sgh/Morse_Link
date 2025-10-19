@@ -9,6 +9,6 @@ interface MorseRepository {
     fun convertToMorse(message: String): String
 
      fun transmitThroFlashlight(morseCode: String, context: Context, result: (hasError: Boolean) -> Unit, scope: CoroutineScope)
-     fun transmitThroSound(scope: CoroutineScope, morseCode: String, isPause: StateFlow<Boolean>)
+     fun transmitThroSound(scope: CoroutineScope, morseCode: String, isPause: StateFlow<Boolean>, isCanceled: StateFlow<Boolean>)
      suspend fun transmitThroBoth(morseCode: String)
 }

@@ -30,7 +30,8 @@ import com.example.morse_link.presentation.navigation.Screens
 @Composable
 fun TransmitScreen(
     navController: NavHostController,
-    onStateChange: () -> Unit
+    onStateChange: () -> Unit,
+    onTransmissionCanceled: () -> Unit
 ) {
 
     var isTransmitting by remember { mutableStateOf(true) }
@@ -85,6 +86,7 @@ fun TransmitScreen(
 
             OutlinedButton(
                 onClick = {
+                    onTransmissionCanceled()
                     navController.navigate(Screens.Home.route)
                 },
                 shape = RoundedCornerShape(4.dp),

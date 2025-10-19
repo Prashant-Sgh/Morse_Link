@@ -17,8 +17,8 @@ class MorseRepoImpl @Inject constructor(
         repository.transmitFlashLight(morseCode, context, result, scope)
     }
 
-    override fun transmitThroSound(scope: CoroutineScope, morseCode: String, isPause: StateFlow<Boolean>) {
-        repository.transmitSound(scope, morseCode, isPause)
+    override fun transmitThroSound(scope: CoroutineScope, morseCode: String, isPause: StateFlow<Boolean>, isCanceled: StateFlow<Boolean>) {
+        repository.transmitSound(scope, morseCode, isPause, isCanceled)
     }
 
     override suspend fun transmitThroBoth(morseCode: String) {

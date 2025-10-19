@@ -3,6 +3,7 @@ package com.example.morse_link.presentation.viewmodels
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.morse_link.data.hardware.ToneGenerator
 import com.example.morse_link.data.repository.Repository
 import com.example.morse_link.domain.morseRepo.MorseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,14 +28,11 @@ class SharedViewmodel @Inject constructor(
     private val _morseCode = MutableStateFlow("")
     val morseCode: StateFlow<String> = _morseCode
 
-    private val _isPlaying = MutableStateFlow(false)
-    val isPlaying: StateFlow<Boolean> = _isPlaying
-
     private val _isPause = MutableStateFlow(false)
     val isPause: StateFlow<Boolean> = _isPause
 
-    private val _isResume = MutableStateFlow(false)
-    val isResume: StateFlow<Boolean> = _isResume
+    private val _isTransmissionCanceled = MutableStateFlow(false)
+    val isTransmissionCanceled: StateFlow<Boolean> = _isTransmissionCanceled
 
     private val _isLightEnabled = MutableStateFlow(true)
     val  isLightEnabled: StateFlow<Boolean> = _isLightEnabled
@@ -57,6 +55,14 @@ class SharedViewmodel @Inject constructor(
         _isPause.value = !_isPause.value
     }
 
+    fun UpdatePauseStatus(state: Boolean) {
+        _isPause.value = state
+    }
+
+    fun CancelTransmission(value: Boolean) {
+        _isTransmissionCanceled.value = value
+    }
+
     fun toggleLightEnabled (isEnabled: Boolean) {
         _isLightEnabled.value = isEnabled
     }
@@ -67,7 +73,7 @@ class SharedViewmodel @Inject constructor(
 
     val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     fun TransmitSound(morseCode: String, isPaused: StateFlow<Boolean>) {
-        repository.transmitThroSound(scope = scope, morseCode, isPaused)
+        repository.transmitThroSound(scope = scope, morseCode, isPaused, isTransmissionCanceled)
     }
 
     suspend fun TransmitBoth(morseCode: String) {

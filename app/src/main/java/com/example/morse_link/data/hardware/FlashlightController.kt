@@ -1,21 +1,17 @@
 package com.example.morse_link.data.hardware
 
-import android.content.pm.PackageManager
 import android.hardware.Camera
-import android.os.Build
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
 import kotlinx.coroutines.delay
-import java.util.jar.Manifest
-import kotlin.time.Duration
+import kotlinx.coroutines.flow.StateFlow
 
 @Suppress("Deprication")
 class FlashlightController {
 
     var camera: Camera? = null
 
+    val isCompleted = mutableStateOf(false)
     val dotDuration = 80
     val dashDuration = dotDuration * 3
     val gapDuration = dotDuration
@@ -62,33 +58,49 @@ class FlashlightController {
         }
     }
 
-    suspend fun startLight(morseCode: String) {
+    var currentIndex = 0
+    suspend fun startLight(
+        morseCode: String,
+        isPause: StateFlow<Boolean>,
+        isCanceled: StateFlow<Boolean>
+    ) {
         if (!hasError.value) {
+            val morseArray = morseCode.toCharArray()
             try {
-                Log.d("cameraError", "startLight() - Getting started to transmit light signals")
-                for (code in morseCode) {
-                    val duration: Long
-                    val toggleState: Boolean
-                    val value = when (code) {
-                        '.' -> {
-                            toggleState = true
-                            duration = dotDuration.toLong()
-                        }
-
-                        '-' -> {
-                            toggleState = true
-                            duration = dashDuration.toLong()
-                        }
-
-                        else -> {
-                            toggleState = false
-                            duration = spaceDuration.toLong()
-                        }
+                while (!isCompleted.value) {
+                    if (isCanceled.value) {
+                        isCompleted.value = true
+                        stopCamera()
                     }
-                    toggleTorch(value = toggleState)
-                    delay(duration)
-                    toggleTorch(false)
-                    delay(gapDuration.toLong())
+                    if (!isPause.value && currentIndex < morseArray.size) {
+                        for (index in currentIndex..morseArray.size - 1) {
+                            val duration: Long
+                            val toggleState: Boolean
+                            when (morseArray[index]) {
+                                '.' -> {
+                                    toggleState = true
+                                    duration = dotDuration.toLong()
+                                }
+                                '-' -> {
+                                    toggleState = true
+                                    duration = dashDuration.toLong()
+                                }
+                                else -> {
+                                    toggleState = false
+                                    duration = spaceDuration.toLong()
+                                }
+                            }
+                            toggleTorch(value = toggleState)
+                            delay(duration)
+                            toggleTorch(false)
+                            delay(gapDuration.toLong())
+                            currentIndex++
+                        }
+                    }else if (currentIndex == morseArray.size) {
+                        isCompleted.value = true
+                        stopCamera()
+                    }
+
                 }
             } catch (e: Exception) {
                 hasError.value = true

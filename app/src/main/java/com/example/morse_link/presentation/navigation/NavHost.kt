@@ -48,6 +48,9 @@ fun AppNavHost(
         }
         composable(Screens.Result.route) {
             requestCameraPermission.launch(Manifest.permission.CAMERA)
+
+            viewmodel.CancelTransmission(value = false)
+            viewmodel.UpdatePauseStatus(state = false)
             ResultScreen(
                 morseCode = morseCode,
                 navcontroller = navController,
@@ -70,8 +73,10 @@ fun AppNavHost(
         composable(Screens.Transmit.route) {
             TransmitScreen(
                 navController,
-                {
-                    viewmodel.toggleTonePlayStatus()
+                onStateChange = { viewmodel.toggleTonePlayStatus()},
+                onTransmissionCanceled = {
+                    viewmodel.CancelTransmission(true)
+                    viewmodel.UpdatePauseStatus(false)
                 }
                 )
         }
