@@ -18,7 +18,6 @@ class ToneGenerator (private val scope: CoroutineScope, private val morseCode: S
     val gapDuration = dotDuration
     val spaceDuration = dotDuration * 7
     val isCompleted = mutableStateOf(false)
-    var indexPlayed = 0
 
     fun generateTone(duration: Int): ShortArray {
         val audioSlices = ( duration / 1000.0 * sampleRate ).toInt()
@@ -39,6 +38,7 @@ class ToneGenerator (private val scope: CoroutineScope, private val morseCode: S
         audioTrack: AudioTrack,
         isCanceled: StateFlow<Boolean>
     ) {
+        var indexPlayed = 0
         while (!isCompleted.value) {
             if (isCanceled.value) {
                 isCompleted.value = true

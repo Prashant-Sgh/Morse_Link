@@ -22,21 +22,14 @@ class FlashlightController {
 
     fun startPreview () {
         try {
-            Log.d("cameraError", "startPreview - Camera.open() STARTING")
             camera = Camera.open()
-            Log.d("cameraError", "startPreview - Camera.open() DONE")
             val params = camera!!.parameters
-            Log.d("cameraError", "startPreview - camera!!.preview")
             params.flashMode = Camera.Parameters.FLASH_MODE_OFF
-            Log.d("cameraError", "startPreview - params.flashMode")
             camera!!.parameters = params
-            Log.d("cameraError", "startPreview - camera!!.parameters")
             camera!!.startPreview()
-            Log.d("cameraError", "startPreview - camera!!.startPreview")
         }
         catch (e: Exception) {
             hasError.value = true
-            Log.d("cameraError", "ERROR - the error is: $e")
         }
     }
 
@@ -46,15 +39,12 @@ class FlashlightController {
             val params = camera!!.parameters
             if (value) {
                 params.flashMode = Camera.Parameters.FLASH_MODE_TORCH
-                Log.d("cameraError", "Flash - ON")
             } else {
                 params.flashMode = Camera.Parameters.FLASH_MODE_OFF
-                Log.d("cameraError", "Flash - OFF")
             }
             camera!!.parameters = params
         }?: run {
             hasError.value = true
-            Log.d("cameraError", "ERROR - toggleTorch - the camera class is null.")
         }
     }
 
@@ -73,38 +63,37 @@ class FlashlightController {
                         stopCamera()
                     }
                     if (!isPause.value && currentIndex < morseArray.size) {
-                        for (index in currentIndex..morseArray.size - 1) {
-                            val duration: Long
-                            val toggleState: Boolean
-                            when (morseArray[index]) {
-                                '.' -> {
-                                    toggleState = true
-                                    duration = dotDuration.toLong()
-                                }
-                                '-' -> {
-                                    toggleState = true
-                                    duration = dashDuration.toLong()
-                                }
-                                else -> {
-                                    toggleState = false
-                                    duration = spaceDuration.toLong()
-                                }
+                        val duration: Long
+                        val toggleState: Boolean
+                        when (morseArray[currentIndex]) {
+                            '.' -> {
+                                toggleState = true
+                                duration = dotDuration.toLong()
                             }
-                            toggleTorch(value = toggleState)
-                            delay(duration)
-                            toggleTorch(false)
-                            delay(gapDuration.toLong())
-                            currentIndex++
+                            '-' -> {
+                                toggleState = true
+                                duration = dashDuration.toLong()
+                            }
+                            else -> {
+                                toggleState = false
+                                duration = spaceDuration.toLong()
+                            }
                         }
-                    }else if (currentIndex == morseArray.size) {
+                        toggleTorch(toggleState)
+                        delay(duration)
+                        toggleTorch(false)
+                        delay(gapDuration.toLong())
+                        currentIndex++
+                    }else if (isPause.value) {
+                        delay(100)
+                    }
+                    else if (currentIndex == morseArray.size) {
                         isCompleted.value = true
                         stopCamera()
                     }
-
                 }
             } catch (e: Exception) {
                 hasError.value = true
-                Log.d("cameraError", "ERROR - startLight function fails, the error was - $e")
             } finally {
                 stopCamera()
             }

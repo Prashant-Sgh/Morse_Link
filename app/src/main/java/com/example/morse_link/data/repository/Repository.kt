@@ -50,7 +50,6 @@ class Repository @Inject constructor
     }
 
     fun transmitSound(scope: CoroutineScope, morseCode: String, isPause: StateFlow<Boolean>, isCanceled: StateFlow<Boolean>) {
-//        val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
         ToneGenerator(
             scope = scope,
             morseCode = morseCode,

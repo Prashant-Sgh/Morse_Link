@@ -142,6 +142,21 @@ fun ResultScreen(morseCode: String, navcontroller: NavHostController, transmitSo
                                 color = if (lightTransmission) Color.Green else Color.Black
                             )
                         }
+//                      Transmit BOTH
+                        OutlinedButton(
+                            onClick = {
+                                navcontroller.navigate(Screens.Transmit.route)
+                                transmitLight()
+                                transmitSound()
+                            },
+                            enabled = lightTransmission
+                        ) {
+                            Text(
+                                "Transmit BOTH",
+                                fontWeight = FontWeight.Medium,
+                                color = if (lightTransmission) Color.Green else Color.Black
+                            )
+                        }
 
                     }
                 }

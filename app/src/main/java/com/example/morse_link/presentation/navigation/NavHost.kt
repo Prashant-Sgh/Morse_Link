@@ -48,23 +48,17 @@ fun AppNavHost(
         }
         composable(Screens.Result.route) {
             requestCameraPermission.launch(Manifest.permission.CAMERA)
-
-            viewmodel.CancelTransmission(value = false)
-            viewmodel.UpdatePauseStatus(state = false)
             ResultScreen(
                 morseCode = morseCode,
                 navcontroller = navController,
                 transmitSound = {
-                    viewmodel.TransmitSound(
-                        morseCode = morseCode,
-                        isPaused = viewmodel.isPause
-                    )
+                    viewmodel.TransmitSound(morseCode = morseCode)
                 },
                 transmitLight = {
                     viewmodel.TransmitFlashlight(
                         morseCode =  morseCode,
                         context = context,
-                        result = { viewmodel.toggleLightEnabled(it) }
+                        result = { viewmodel.toggleLightEnabled(!it) }
                     )
                 },
                 lightTransmission = isLightTransmissionEnabled

@@ -13,8 +13,8 @@ class MorseRepoImpl @Inject constructor(
         return repository.convertToMorse(message)
     }
 
-    override fun transmitThroFlashlight(morseCode: String, context: Context, result: (hasError: Boolean) -> Unit, scope: CoroutineScope) {
-        repository.transmitFlashLight(morseCode, context, result, scope)
+    override fun transmitThroFlashlight(morseCode: String, context: Context, result: (hasError: Boolean) -> Unit, scope: CoroutineScope, isPause: StateFlow<Boolean>, isCanceled: StateFlow<Boolean>) {
+        repository.transmitFlashLight(morseCode, context, result, scope, isPause, isCanceled)
     }
 
     override fun transmitThroSound(scope: CoroutineScope, morseCode: String, isPause: StateFlow<Boolean>, isCanceled: StateFlow<Boolean>) {
