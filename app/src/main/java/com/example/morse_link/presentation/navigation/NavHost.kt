@@ -16,6 +16,9 @@ import com.example.morse_link.presentation.components.ResultScreen
 import com.example.morse_link.presentation.components.TransmitScreen
 import com.example.morse_link.presentation.screens.HomeScreen
 import com.example.morse_link.presentation.viewmodels.SharedViewmodel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 
 @Composable
 fun AppNavHost(
@@ -52,12 +55,15 @@ fun AppNavHost(
                 morseCode = morseCode,
                 navcontroller = navController,
                 transmitSound = {
-                    viewmodel.TransmitSound(morseCode = morseCode)
+                    val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+                    viewmodel.TransmitSound(morseCode = morseCode, scope = scope)
                 },
                 transmitLight = {
+                    val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
                     viewmodel.TransmitFlashlight(
                         morseCode =  morseCode,
                         context = context,
+                        scope = scope,
                         result = { viewmodel.toggleLightEnabled(!it) }
                     )
                 },

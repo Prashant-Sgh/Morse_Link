@@ -53,8 +53,9 @@ fun ProcessingOverlay(
                 composition,
                 progress = { lottieAnimatable.progress },
                 modifier = Modifier.width(if (randomLoader == 8)  (300.dp) else (150.dp)),
-
             )
+
+            Text(" Lottie Animation - $randomLoader")
 
             LaunchedEffect(composition) {
                 if (composition != null) {

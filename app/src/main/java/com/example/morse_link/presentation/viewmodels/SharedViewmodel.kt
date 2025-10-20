@@ -67,13 +67,13 @@ class SharedViewmodel @Inject constructor(
         _isLightEnabled.value = isEnabled
     }
 
-    val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+//    val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
-    fun TransmitFlashlight(morseCode: String, context: Context, result: (hasError: Boolean) -> Unit) {
+    fun TransmitFlashlight(morseCode: String, context: Context, scope: CoroutineScope, result: (hasError: Boolean) -> Unit) {
         repository.transmitThroFlashlight(morseCode, context, result, scope, isPause, isTransmissionCanceled )
     }
 
-    fun TransmitSound(morseCode: String) {
+    fun TransmitSound(morseCode: String, scope: CoroutineScope) {
         _isPause.value = false
         _isTransmissionCanceled.value = false
         repository.transmitThroSound(scope = scope, morseCode, isPause, isTransmissionCanceled)
