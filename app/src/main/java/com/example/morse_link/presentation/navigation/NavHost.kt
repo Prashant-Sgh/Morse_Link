@@ -28,8 +28,6 @@ fun AppNavHost(
     requestCameraPermission: ActivityResultLauncher<String>
 ) {
 
-    val message = viewmodel.messageString
-    val isProcessing by viewmodel.isProcessing.collectAsState()
     val morseCode by viewmodel.morseCode.collectAsState()
     val isLightTransmissionEnabled by viewmodel.isLightEnabled.collectAsState()
     val context = LocalContext.current

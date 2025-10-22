@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.morse_link.presentation.navigation.Screens
 
-//@Preview (showBackground = true)
 @Composable
 fun TransmitScreen(
     navController: NavHostController,
@@ -90,7 +89,6 @@ fun TransmitScreen(
                     navController.navigate(Screens.Home.route)
                 },
                 shape = RoundedCornerShape(4.dp),
-//                colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = Modifier.padding(bottom = 140.dp)
                 ) {
                 Text(
