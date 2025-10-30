@@ -3,11 +3,11 @@
 A simple app that can convert your string text message into Morse code and transmit it using your phone's speaker and flash-light.
 
 ## Previews
-<img src="preview/MorseLink.gif" alt="App Preview" width=300>
+<img src="preview/MorseLink.gif" alt="App Preview" width=200>
 
 ## Screenshots
 
-<img src="preview/Splash.png" alt="Splash screen" width=300> <img src="preview/InputScreen01.png" alt="Input screen" width=300> <img src="preview/InputScreen02.png" alt="Input screen" width=300> <img src="preview/LoadingScreen.png" alt="Loading screen" width=300> <img src="preview/ResultScreen01.png" alt="Result screen" width=300> <img src="preview/ResultScreen02.png" alt="Result screen" width=300>
+<img src="preview/Splash.png" alt="Splash screen" width=200> <img src="preview/InputScreen01.png" alt="Input screen" width=200> <img src="preview/InputScreen02.png" alt="Input screen" width=200> <img src="preview/LoadingScreen.png" alt="Loading screen" width=200> <img src="preview/ResultScreen01.png" alt="Result screen" width=200> <img src="preview/ResultScreen02.png" alt="Result screen" width=200>
 
 ## About the app
 #### This app will need CAMERA PERMISSION to work properly.
